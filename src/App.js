@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 
 import Layout from './components/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -6,11 +8,13 @@ import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 class App extends Component {
   render() {
     return (
-      <div>
-        <Layout>
-          <BurgerBuilder />
-        </Layout>
-      </div>
+      <Container maxWidth="sm">
+        <Box my={4}>
+          <Layout>
+            <BurgerBuilder />
+          </Layout>
+        </Box>
+      </Container>
     );
   }
 }

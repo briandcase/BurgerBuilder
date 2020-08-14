@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -32,22 +33,22 @@
   "eslintConfig": {
     "root": true,
     "env": {
-        "browser": true,
-        "node": true
+      "browser": true,
+      "node": true
     },
     "parserOptions": {
-        "parser": "babel-eslint",
-        "ecmaVersion": 2018,
-        "sourceType": "module"
+      "parser": "babel-eslint",
+      "ecmaVersion": 2018,
+      "sourceType": "module"
     },
     "extends": [
-        "react-app", 
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
+      "react-app",
+      "plugin:react/recommended",
+      "plugin:prettier/recommended"
     ],
     "plugins": [],
     "rules": {
-        "react/prop-types": 1
+      "react/prop-types": 1
     }
   },
   "browserslist": {
