@@ -1,11 +1,10 @@
 import React from 'react';
-import ButtonAppBar from '../Navigation/Toolbar/Toolbar';
-
 import Aux from '../../hoc/Aux';
+import AppBar from '../Navigation/Toolbar/Toolbar';
 
 const layout = (props) => (
   <Aux>
-    <ButtonAppBar />
+    <AppBar />
     <main>{props.children}</main>
   </Aux>
 );

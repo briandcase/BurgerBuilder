@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-
 import Layout from './components/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 

@@ -1,77 +1,138 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, Fragment } from 'react';
+import clsx from 'clsx';
+import { Router, Route, Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-//import Navigationitems from '../NavigationItems/NavigationItems';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
-const useStyles = makeStyles((theme) => ({
+import Home from './Home';
+import Grid from './Grid';
+
+const drawerWidth = 240;
+const history = createBrowserHistory();
+
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
+  flex: {
+    flex: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    width: drawerWidth,
+  },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: -12,
+    marginRight: 20,
   },
-  title: {
-    flexGrow: 1,
+  toolbarMargin: theme.mixins.toolbar,
+  aboveDrawer: {
+    zIndex: theme.zIndex.drawer + 1,
   },
-}));
+});
 
-export default function ButtonAppBar() {
-  const classes = useStyles();
+const MyToolbar = withStyles(styles)(({ classes, title, onMenuClick }) => (
+  <Fragment>
+    <AppBar className={classes.aboveDrawer}>
+      <Toolbar>
+        <IconButton
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="Menu"
+          onClick={onMenuClick}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" color="inherit" className={classes.flex}>
+          {title}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+    <div className={classes.toolbarMargin} />
+  </Fragment>
+));
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const MyDrawer = withStyles(styles)(
+  ({ classes, variant, open, onClose, onItemClick }) => (
+    <Router history={history}>
+      <Drawer
+        variant={variant}
+        open={open}
+        onClose={onClose}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div
+          className={clsx({
+            [classes.toolbarMargin]: variant === 'persistent',
+          })}
+        />
+        <List>
+          <ListItem
+            button
+            component={Link}
+            to="/"
+            onClick={onItemClick('Home')}
+          >
+            <ListItemText>Home</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            component={Link}
+            to="/Grid"
+            onClick={onItemClick('Page 2')}
+          >
+            <ListItemText>Page 2</ListItemText>
+          </ListItem>
+          <ListItem button onClick={onItemClick('Page 3')}>
+            <ListItemText>Page 3</ListItemText>
+          </ListItem>
+        </List>
+      </Drawer>
+      <main className={classes.content}>
+        <Route exact path="/" component={Home} />
+        <Route path="/grid" component={Grid} />
+      </main>
+    </Router>
+  )
+);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+function AppBarInteraction({ classes, variant }) {
+  const [drawer, setDrawer] = useState(false);
+  const [title, setTitle] = useState('Home');
+
+  const toggleDrawer = () => {
+    setDrawer(!drawer);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const onItemClick = (title) => () => {
+    setTitle(title);
+    setDrawer(variant === 'temporary' ? false : drawer);
+    setDrawer(!drawer);
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            MENU
-          </Typography>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            Open Menu
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
-          <FastfoodIcon fontSize="large" />
-        </Toolbar>
-      </AppBar>
+      <MyToolbar title={title} onMenuClick={toggleDrawer} />
+      <MyDrawer
+        open={drawer}
+        onClose={toggleDrawer}
+        onItemClick={onItemClick}
+        variant={variant}
+      />
     </div>
   );
 }
+
+export default withStyles(styles)(AppBarInteraction);
