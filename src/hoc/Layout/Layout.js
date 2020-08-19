@@ -1,6 +1,6 @@
 import React from 'react';
-import Aux from '../../hoc/Aux';
-import AppBar from '../Navigation/Toolbar/Toolbar';
+import Aux from '../Aux/Aux';
+import AppBar from '../../components/Navigation/Toolbar/Toolbar';
 
 const layout = (props) => (
   <Aux>
