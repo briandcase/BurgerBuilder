@@ -6,14 +6,15 @@ import './index.scss';
 import App from './App';
 import theme from './theme';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter>
       <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+    </BrowserRouter>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

@@ -90,10 +90,10 @@ const MyDrawer = withStyles(styles)(
           <ListItem
             button
             component={Link}
-            to="/Grid"
+            to="/Checkout"
             onClick={onItemClick('Page 2')}
           >
-            <ListItemText>Page 2</ListItemText>
+            <ListItemText>Checkout</ListItemText>
           </ListItem>
           <ListItem button onClick={onItemClick('Page 3')}>
             <ListItemText>Page 3</ListItemText>
