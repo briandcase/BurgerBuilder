@@ -1,79 +1,93 @@
 import React from 'react';
-import Styles from './Styles';
-import { Form, Field } from 'react-final-form';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { Form } from 'react-final-form';
+import { TextField, showErrorOnBlur } from 'mui-rff';
+import { makeStyles } from '@material-ui/core/styles';
+interface FormData {
+  name: string;
+  email: string;
+  address: string;
+  postalcode: string;
+}
 
-import Select from 'react-select';
-import states from './states';
+interface MyFormProps {
+  initialValues: FormData;
+}
 
-const TextFieldAdapter = ({ input, meta, ...rest }) => (
-  <TextField
-    {...input}
-    {...rest}
-    onChange={(event, value) => input.onChange(value)}
-    errorText={meta.touched ? meta.error : ''}
-  />
-);
-
-const ReactSelectAdapter = ({ input, ...rest }) => (
-  <Select {...input} {...rest} searchable />
-);
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const onSubmit = async (values) => {
-  await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
-};
-const required = (value) => (value ? undefined : 'Required');
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '25ch',
+  },
+}));
 
 class ContactDataForm extends React.Component {
   render() {
-    return (
-      <MuiThemeProvider>
-        <Styles>
-          <Form
-            onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine, values }) => (
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <Field
-                    name="firstName"
-                    component={TextFieldAdapter}
-                    validate={required}
-                    hintText="First Name"
-                    floatingLabelText="First Name"
-                  />
-                </div>
-                <div>
-                  <Field
-                    name="state"
-                    component={ReactSelectAdapter}
-                    options={states}
-                  />
-                </div>
-
-                <div className="buttons">
-                  <button type="submit" disabled={submitting}>
-                    Log In
-                  </button>
-                  <button
-                    type="button"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </button>
-                </div>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </form>
-            )}
-          />
-        </Styles>
-      </MuiThemeProvider>
-    );
+    return <MyForm initialValues={{ name: 'Name' }} />;
   }
+}
+
+function MyForm(props: MyFormProps) {
+  const { initialValues } = props;
+
+  // yes, this can even be async!
+  async function onSubmit(values: FormData) {
+    console.log(values);
+  }
+
+  // yes, this can even be async!
+  async function validate(values: FormData) {
+    if (!values.hello) {
+      return { name: 'User name is required' };
+    }
+    return;
+  }
+  const classes = useStyles();
+
+  return (
+    <Form
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      validate={validate}
+      render={({ handleSubmit, values }) => (
+        <form className={classes.root} onSubmit={handleSubmit} noValidate>
+          <TextField
+            id="standard-required"
+            label="Name"
+            name="userName"
+            required={true}
+          />
+          <TextField
+            id="standard-required"
+            label="Email"
+            name="email"
+            showError={showErrorOnBlur}
+            required={true}
+          />
+          <TextField
+            id="standard-required"
+            label="Address"
+            name="address"
+            required={true}
+          />
+          <TextField
+            id="standard-number"
+            label="PostalCode"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="postalCode"
+            required={true}
+          />
+        </form>
+      )}
+    />
+  );
 }
 
 export default ContactDataForm;
