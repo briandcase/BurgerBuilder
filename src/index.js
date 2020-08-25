@@ -11,9 +11,11 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
   </ThemeProvider>,
   document.getElementById('root')
 );
