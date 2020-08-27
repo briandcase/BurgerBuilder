@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PostData from '../../../fetch-orders';
 import PropTypes from 'prop-types';
 import ContactDataForm from './ContactDataForm';
+import { connect } from 'react-redux';
+
 class ContactData extends Component {
   state = {
     name: '',
@@ -15,7 +17,7 @@ class ContactData extends Component {
 
     this.setState({ loading: true });
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.price,
       customer: {
         name: 'Brian Case',
@@ -48,6 +50,14 @@ class ContactData extends Component {
 ContactData.propTypes = {
   ingredients: PropTypes.object,
   price: PropTypes.number,
+  ings: PropTypes.object,
 };
 
-export default ContactData;
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
