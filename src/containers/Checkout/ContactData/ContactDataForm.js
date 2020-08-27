@@ -2,6 +2,10 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import { TextField, showErrorOnBlur } from 'mui-rff';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 interface FormData {
   name: string;
   email: string;
@@ -15,8 +19,10 @@ interface MyFormProps {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    '& .MuiTextField-root': {
+      margin: theme.spacing(2),
+      width: '50ch',
+    },
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -48,6 +54,19 @@ function MyForm(props: MyFormProps) {
   }
   const classes = useStyles();
 
+  const [state, setState] = React.useState({
+    age: '',
+    name: 'hai',
+  });
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+  };
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -74,16 +93,30 @@ function MyForm(props: MyFormProps) {
             name="address"
             required={true}
           />
-          <TextField
-            id="standard-number"
-            label="PostalCode"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="postalCode"
-            required={true}
-          />
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+            <Select
+              native
+              value={state.age}
+              onChange={handleChange}
+              inputProps={{
+                name: 'age',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              <option value={10}>Ten</option>
+              <option value={20}>Twenty</option>
+              <option value={30}>Thirty</option>
+            </Select>
+          </FormControl>
+          <Button
+            clicked={props.orderHandler}
+            variant="contained"
+            color="primary"
+          >
+            Submit Order
+          </Button>
         </form>
       )}
     />

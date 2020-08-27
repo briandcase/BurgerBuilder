@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Aux from '../../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import classes from './OrderSummary.module.scss';
 
@@ -16,7 +15,7 @@ class OrderSummary extends Component {
       }
     );
     return (
-      <Aux>
+      <>
         <h3>Your Order </h3>
         <p>A delicious burger with the following ingredients: </p>
         <ul>{ingredientSummary}</ul>
@@ -41,7 +40,7 @@ class OrderSummary extends Component {
             CONTINUE
           </Button>
         </div>
-      </Aux>
+      </>
     );
   }
 }

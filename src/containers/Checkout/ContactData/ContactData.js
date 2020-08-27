@@ -39,7 +39,7 @@ class ContactData extends Component {
   render() {
     return (
       <>
-        <ContactDataForm />
+        <ContactDataForm clicked={this.orderHandler} />
       </>
     );
   }
@@ -47,6 +47,7 @@ class ContactData extends Component {
 
 ContactData.propTypes = {
   ingredients: PropTypes.object,
+  price: PropTypes.number,
 };
 
 export default ContactData;

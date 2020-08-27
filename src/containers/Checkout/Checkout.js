@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import { Route } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
+import PropTypes from 'prop-types';
 
 class Checkout extends Component {
   state = {
@@ -53,5 +54,20 @@ class Checkout extends Component {
     );
   }
 }
+
+Checkout.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func,
+    replace: PropTypes.func,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+  }).isRequired,
+  match: PropTypes.shape({
+    path: PropTypes.string,
+  }).isRequired,
+};
 
 export default Checkout;

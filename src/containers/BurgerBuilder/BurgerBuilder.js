@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ErrorHandler from '../../hoc/ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -127,7 +127,7 @@ class BurgerBuilder extends Component {
 
     if (this.state.ingredients) {
       burger = (
-        <Aux>
+        <>
           <Burger ingredients={this.state.ingredients} />
           <BuildControls
             ingredientAdded={this.addIngredientHandler}
@@ -137,7 +137,7 @@ class BurgerBuilder extends Component {
             ordered={this.purchaseHandler}
             price={this.state.totalPrice}
           />
-        </Aux>
+        </>
       );
       orderSummary = (
         <OrderSummary
@@ -152,7 +152,7 @@ class BurgerBuilder extends Component {
       orderSummary = <LinearProgress />;
     }
     return (
-      <Aux>
+      <>
         <ErrorHandler>
           <Modal
             show={this.state.purchasing}
@@ -162,9 +162,15 @@ class BurgerBuilder extends Component {
           </Modal>
         </ErrorHandler>
         {burger}
-      </Aux>
+      </>
     );
   }
 }
+
+BurgerBuilder.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default BurgerBuilder;

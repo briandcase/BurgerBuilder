@@ -1,11 +1,11 @@
 import React from 'react';
-import Aux from '../Aux/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 
 const drawerWidth = 240;
 
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Layout(props) {
   const classes = useStyles();
   return (
-    <Aux>
+    <>
       <div className={classes.root}>
         <CssBaseline />
         <Toolbar />
@@ -108,6 +108,10 @@ export default function Layout(props) {
           </Container>
         </main>
       </div>
-    </Aux>
+    </>
   );
 }
+
+Layout.propTypes = {
+  children: PropTypes.node,
+};
