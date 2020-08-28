@@ -1,126 +1,105 @@
 import React from 'react';
-import { Form } from 'react-final-form';
-import { TextField, showErrorOnBlur } from 'mui-rff';
+import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
-interface FormData {
-  name: string;
-  email: string;
-  address: string;
-  postalcode: string;
-}
-
-interface MyFormProps {
-  initialValues: FormData;
-}
+import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      width: '50ch',
-    },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '25ch',
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
-class ContactDataForm extends React.Component {
-  render() {
-    return <MyForm initialValues={{ name: 'Name' }} />;
-  }
-}
-
-function MyForm(props: MyFormProps) {
-  const { initialValues } = props;
-
-  // yes, this can even be async!
-  async function onSubmit(values: FormData) {
-    console.log(values);
-  }
-
-  // yes, this can even be async!
-  async function validate(values: FormData) {
-    if (!values.hello) {
-      return { name: 'User name is required' };
-    }
-    return;
-  }
+const ContactDataForm = () => {
+  const { handleSubmit, register, errors } = useForm();
+  const onSubmit = (values) => console.log(values);
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    age: '',
-    name: 'hai',
-  });
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
-
   return (
-    <Form
-      onSubmit={onSubmit}
-      initialValues={initialValues}
-      validate={validate}
-      render={({ handleSubmit, values }) => (
-        <form className={classes.root} onSubmit={handleSubmit} noValidate>
-          <TextField
-            id="standard-required"
-            label="Name"
-            name="userName"
-            required={true}
-          />
-          <TextField
-            id="standard-required"
-            label="Email"
-            name="email"
-            showError={showErrorOnBlur}
-            required={true}
-          />
-          <TextField
-            id="standard-required"
-            label="Address"
-            name="address"
-            required={true}
-          />
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-            <Select
-              native
-              value={state.age}
-              onChange={handleChange}
-              inputProps={{
-                name: 'age',
-                id: 'age-native-simple',
-              }}
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Contact Form
+        </Typography>
+        <Grid container spacing={4}>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Input
+                  fullWidth
+                  type="text"
+                  placeholder="Name"
+                  name="Name"
+                  ref={register({ required: true, maxLength: 25 })}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Input
+                  fullWidth
+                  type="undefined"
+                  placeholder="Address"
+                  name="Address"
+                  ref={register}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Input
+                  fullWidth
+                  name="email"
+                  placeholder="email"
+                  ref={register({
+                    required: 'Required',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: 'invalid email address',
+                    },
+                  })}
+                />
+              </Grid>
+
+              {errors.email && errors.email.message}
+
+              <Grid item xs={12}>
+                <InputLabel id="demo-simple-select-label">
+                  Delivery Type
+                </InputLabel>
+                <Select name="Delivery" ref={register} autoWidth>
+                  <option value="Fastest">Fastest</option>
+                  <option value=" Cheapest"> Cheapest</option>
+                </Select>
+              </Grid>
+            </Grid>
+            {errors.username && errors.username.message}
+
+            <Button
+              fullWidth
+              className={classes.submit}
+              variant="contained"
+              color="secondary"
+              type="submit"
             >
-              <option aria-label="None" value="" />
-              <option value={10}>Ten</option>
-              <option value={20}>Twenty</option>
-              <option value={30}>Thirty</option>
-            </Select>
-          </FormControl>
-          <Button
-            clicked={props.orderHandler}
-            variant="contained"
-            color="primary"
-          >
-            Submit Order
-          </Button>
-        </form>
-      )}
-    />
+              Submit
+            </Button>
+          </form>
+        </Grid>
+      </div>
+    </Container>
   );
-}
+};
 
 export default ContactDataForm;
