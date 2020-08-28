@@ -14,6 +14,7 @@ class BurgerBuilder extends Component {
     super(props);
     this.state = {
       error: false,
+      purchasable: false,
       purchasing: false,
       loading: false,
     };
