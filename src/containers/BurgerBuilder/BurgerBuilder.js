@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ErrorHandler from '../../hoc/ErrorBoundary/ErrorBoundary';
+import * as actionTypes from '../../store/actions';
 import PropTypes from 'prop-types';
 
 class BurgerBuilder extends Component {
@@ -20,8 +20,8 @@ class BurgerBuilder extends Component {
     };
   }
 
-  componentDidMount() {
-    /*  fetch('https://react-my-burger-c7cdf.firebaseio.com/ingredients.json')
+  // componentDidMount() {
+  /*  fetch('https://react-my-burger-c7cdf.firebaseio.com/ingredients.json')
       .then((response) => response.json())
       .then(
         (result) => {
@@ -37,7 +37,7 @@ class BurgerBuilder extends Component {
           });
         }
       ); */
-  }
+  // }
 
   updatePurchaseState(ingredients) {
     const sum = Object.keys(ingredients)
@@ -144,9 +144,9 @@ BurgerBuilder.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   ings: PropTypes.object,
+  price: PropTypes.number,
   onIngredientAdded: PropTypes.func,
   onIngredientRemoved: PropTypes.func,
-  price: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);

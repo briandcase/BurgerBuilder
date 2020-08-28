@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -100,6 +101,11 @@ const ContactDataForm = () => {
       </div>
     </Container>
   );
+};
+
+ContactDataForm.propTypes = {
+  initialValues: PropTypes.object,
+  orderHandler: PropTypes.func,
 };
 
 export default ContactDataForm;
