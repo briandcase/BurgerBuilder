@@ -4,18 +4,9 @@ import { TextField, showErrorOnBlur } from 'mui-rff';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-interface FormData {
-  name: string;
-  email: string;
-  address: string;
-  postalcode: string;
-}
-
-interface MyFormProps {
-  initialValues: FormData;
-}
+import MenuItem from '@material-ui/core/MenuItem';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,16 +28,16 @@ class ContactDataForm extends React.Component {
   }
 }
 
-function MyForm(props: MyFormProps) {
+function MyForm(props) {
   const { initialValues } = props;
 
   // yes, this can even be async!
-  async function onSubmit(values: FormData) {
+  async function onSubmit(values) {
     console.log(values);
   }
 
   // yes, this can even be async!
-  async function validate(values: FormData) {
+  async function validate(values) {
     if (!values.hello) {
       return { name: 'User name is required' };
     }
@@ -54,17 +45,10 @@ function MyForm(props: MyFormProps) {
   }
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    age: '',
-    name: 'hai',
-  });
+  const [delivery, setDelivery] = React.useState('');
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+  const handleDeliveryChange = (event) => {
+    setDelivery(event.target.value);
   };
 
   return (
@@ -93,23 +77,18 @@ function MyForm(props: MyFormProps) {
             name="address"
             required={true}
           />
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-            <Select
-              native
-              value={state.age}
-              onChange={handleChange}
-              inputProps={{
-                name: 'age',
-                id: 'age-native-simple',
-              }}
-            >
-              <option aria-label="None" value="" />
-              <option value={10}>Ten</option>
-              <option value={20}>Twenty</option>
-              <option value={30}>Thirty</option>
-            </Select>
-          </FormControl>
+
+          <InputLabel id="demo-simple-select-label">Delivery</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={delivery}
+            onChange={handleDeliveryChange}
+          >
+            <MenuItem value={10}>Fastest</MenuItem>
+            <MenuItem value={20}>Cheapest</MenuItem>
+          </Select>
+
           <Button
             clicked={props.orderHandler}
             variant="contained"
@@ -122,5 +101,10 @@ function MyForm(props: MyFormProps) {
     />
   );
 }
+
+MyForm.propTypes = {
+  initialValues: PropTypes.object,
+  orderHandler: PropTypes.func,
+};
 
 export default ContactDataForm;
