@@ -56,7 +56,7 @@ Checkout.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  return { ings: state.ingredients };
+  return { ings: state.ingredients, purchased: state.order.purchased };
 };
 
 export default connect(mapStateToProps)(Checkout);

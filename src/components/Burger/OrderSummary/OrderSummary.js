@@ -3,6 +3,10 @@ import Button from '@material-ui/core/Button';
 import classes from './OrderSummary.module.scss';
 
 class OrderSummary extends Component {
+  UNSAFE_componentWillUpdate() {
+    console.log('[OrderSummary] WillUpdate');
+  }
+
   render() {
     const ingredientSummary = Object.keys(this.props.ingredients).map(
       (igKey) => {
